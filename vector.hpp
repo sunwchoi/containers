@@ -36,6 +36,8 @@ protected:
 protected:
 	void	initiateNewData(size_type n)
 	{
+		if (!n)
+			return ;
 		_data = _alloc.allocate(n);
 		_avail = _data;
 		_limit = _data + n;
@@ -43,6 +45,8 @@ protected:
 	
 	void	deleteOldData(iterator& old_data, iterator& old_avail, iterator& old_limit)
 	{
+		if (!(old_avail - old_data))
+			return ;
 		for (; old_avail > old_data; old_avail--) 
 			_alloc.destroy(old_avail);
 		_alloc.destroy(old_data);
@@ -56,32 +60,47 @@ protected:
 
 	void	copyWithValue(size_type n, const value_type& val)
 	{
+		for(size_type idx = 0; idx < n; idx++)
+			_alloc.construct(_avail++, val);
+	}
+	
+	template<class InputIterator>
+	InputIterator	copyWithValueToDestination(size_type n, const value_type& val, InputIterator dst)
+	{
 		for(size_type	idx = 0; idx < n; idx++)
-			*(_avail++) = val;
+		{
+			_alloc.destroy(dst);
+			_alloc.construct(dst++, val);
+		}
+		return dst;
 	}
 
 	template<class InputIterator>
 	void	copyWithIterator(InputIterator first, InputIterator last)
 	{
 		for (; first != last; first++)
-			*(_avail++) = *first;
+			_alloc.construct(_avail++, *first);
 	}
 
 	template<class InputIterator1, class InputIterator2> 
-	InputIterator2	copyWithIteratorToDestination(InputIterator1 first, InputIterator1 last, InputIterator2 dst)
+	void	copyWithIteratorToDestination(InputIterator1 first, InputIterator1 last, InputIterator2 dst)
 	{
 		for (; first != last; first++)
-			*(dst++) = *first;
-		return dst;
+		{
+			_alloc.destroy(dst);
+			_alloc.construct(dst++, *first);
+		}
+	}
+	
+	void copyWithReverseIterator(reverse_iterator first, reverse_iterator last, reverse_iterator dst)
+	{
+		for (; first != last; first++)
+		{
+			_alloc.destroy(dst.base() - 1);
+			_alloc.construct(dst++.base() - 1, *first);
+		}
 	}
 
-	template<class InputIterator>
-	InputIterator	copyWithValueToDestination(size_type n, const value_type& val, InputIterator dst)
-	{
-		for(size_type	idx = 0; idx < n; idx++)
-			*(dst++) = val;
-		return dst;
-	}
 
 	size_type	getExtendedCapacity(const size_type& n = 1)
 	{
@@ -230,7 +249,7 @@ public:
 		else if (size() + 1 <= capacity())
 		{
 			inserted_position = position;
-			copyWithIteratorToDestination(reverse_iterator(_avail), reverse_iterator(position), reverse_iterator(_avail + 1));
+			copyWithReverseIterator(reverse_iterator(_avail), reverse_iterator(position), reverse_iterator(_avail + 1));
 			copyWithValueToDestination(1, val, position);
 			_avail++;
 		}
@@ -252,7 +271,7 @@ public:
 		}
 		else if (size() + n <= capacity())
 		{
-			copyWithIteratorToDestination(reverse_iterator(_avail), reverse_iterator(position), reverse_iterator(_avail + n));
+			copyWithReverseIterator(reverse_iterator(_avail), reverse_iterator(position), reverse_iterator(_avail + n));
 			copyWithValueToDestination(n, val, position);
 			_avail += n;
 		}
@@ -275,7 +294,7 @@ public:
 		}
 		else if (size() + n <= capacity())
 		{
-			copyWithIteratorToDestination(reverse_iterator(_avail), reverse_iterator(position), reverse_iterator(_avail + n));
+			copyWithReverseIterator(reverse_iterator(_avail), reverse_iterator(position), reverse_iterator(_avail + n));
 			copyWithIteratorToDestination(first, last, position);
 			_avail += n;
 		}

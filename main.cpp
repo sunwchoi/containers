@@ -51,64 +51,13 @@ public:
 	iterator end() { return this->c.end(); }
 };
 
-#include <list>
-#include "map.hpp"
-#define T1 int
-#define T2 std::string
-typedef ft::pair<const T1, T2> T3;
-
-static int iter = 0;
-
-template <typename MAP, typename U>
-void	ft_erase(MAP &mp, U param)
-{
-	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
-	mp.erase(param);
-	mp.print();
-}
-
-template <typename MAP, typename U, typename V>
-void	ft_erase(MAP &mp, U param, V param2)
-{
-	std::cout << "\t-- [" << iter++ << "] --" << std::endl;
-	mp.erase(param, param2);
-	mp.print();
-}
-
-int		main(void)
-{
-	std::list<T3> lst;
-	unsigned int lst_size = 10;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		lst.push_back(T3(i, std::string((lst_size - i), i + 65)));
-	ft::map<T1, T2> mp(lst.begin(), lst.end());
-	mp.print();
-
-	ft_erase(mp, ++mp.begin());
-
-	ft_erase(mp, mp.begin());
-	ft_erase(mp, --mp.end());
-
-	ft_erase(mp, mp.begin(), ++(++(++mp.begin())));
-	ft_erase(mp, --(--(--mp.end())), --mp.end());
-
-	mp[10] = "Hello";
-	mp[11] = "Hi there";
-	mp.print();
-	ft_erase(mp, --(--(--mp.end())), mp.end());
-	mp[12] = "ONE";
-	mp[13] = "TWO";
-	mp[14] = "THREE";
-	mp[15] = "FOUR";
-	mp.print();
-	ft_erase(mp, mp.begin(), mp.end());
-
-	return (0);
-}
 
 
 #if 0
 int main(int argc, char** argv) {
+
+
+
 	std::atexit(leak_check);
 	if (argc != 2)
 	{
@@ -181,7 +130,7 @@ int main(int argc, char** argv) {
 	std::cout << t - clock() << std::endl;
 	return (0);
 }
-//#else
+#else
 template<class InputIterator>
 void	printAll(InputIterator first, InputIterator last)
 {
@@ -191,19 +140,10 @@ void	printAll(InputIterator first, InputIterator last)
 	std::cout << std::endl;
 }
 
-template<class InputIterator>
-void	printAllMap(InputIterator first, InputIterator last)
-{
-	std::cout << "| ";
-	for (; first != last; first++)
-		std::cout << (*first).first << "| ";
-	std::cout << std::endl;
-}
-
 int main()
 {
 	clock_t t = clock();
-/*
+
 	ft::vector<int> vec;
 
 	std::atexit(leak_check);
@@ -256,7 +196,7 @@ int main()
 	getchar();
 	std::cout << "************************MAP*****************************" << std::endl;
 	getchar();
-*/	
+
 	getchar();
 	std::cout << "************************insert-erase*****************************" << std::endl;
 	getchar();
@@ -268,7 +208,7 @@ int main()
 		int key = rand() % 100;
 		std::cout << "insert: " << key << std::endl;
 		mp.insert(ft::make_pair(key, 0));
-		mp.print();
+//		mp.print();
 		getchar();
 		if (i % 7 == 4)
 		{
@@ -276,7 +216,7 @@ int main()
 			it = ++(++mp.begin());
 			std::cout << "erase: " <<  it->first << std::endl;
 			mp.erase(it->first);
-			mp.print();
+//			mp.print();
 			getchar();
 			std::cout << std::endl;
 		}
