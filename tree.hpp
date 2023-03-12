@@ -411,10 +411,13 @@ protected:
 			replace = makeNode(successor->val, target->color);
 
 			replaceNode(target, replace, true);
+			_alloc.destroy(target);
+			_alloc.deallocate(target, 1);
 			return deleteNode(successor);
 			
 		}
 		balanceTreeAfterDelete(replace,target->color);
+		_alloc.destroy(target);
 		_alloc.deallocate(target, 1);
 	}
 
@@ -707,8 +710,8 @@ public:
 	}
 
 	void	print() { printAllNode(_root, "");}
-
 */
+
 
 
 };

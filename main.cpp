@@ -53,7 +53,7 @@ public:
 
 
 
-#if 0
+#if 1
 int main(int argc, char** argv) {
 
 
@@ -208,15 +208,15 @@ int main()
 		int key = rand() % 100;
 		std::cout << "insert: " << key << std::endl;
 		mp.insert(ft::make_pair(key, 0));
-//		mp.print();
+		mp.print();
 		getchar();
-		if (i % 7 == 4)
+		if (i % 7 == 5)
 		{
 			std::cout << std::endl;
-			it = ++(++mp.begin());
+			it = ++(++(++mp.begin()));
 			std::cout << "erase: " <<  it->first << std::endl;
 			mp.erase(it->first);
-//			mp.print();
+			mp.print();
 			getchar();
 			std::cout << std::endl;
 		}
