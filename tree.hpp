@@ -289,10 +289,10 @@ protected:
 	{
 		if (me == NULL)
 			return ;
-		else if (me->color == 'R')
+		else if (extra_color == 'R')
 			return ;
-		else if (me->color == 'B' && extra_color == 'R')
-			me->color = 'R';
+		else if (extra_color == 'B' && me->color == 'R')
+			me->color = 'B';
 		else
 			balanceDoubleBlack(me);
 	}
