@@ -48,11 +48,8 @@ protected:
 	
 	void	deleteOldData(iterator& old_data, iterator& old_avail, iterator& old_limit)
 	{
-		if (!(old_avail - old_data))
-			return ;
-		for (; old_avail > old_data; old_avail--) 
-			_alloc.destroy(old_avail);
-		_alloc.destroy(old_data);
+		for (; old_avail > old_data; ) 
+			_alloc.destroy(--old_avail);
 		_alloc.deallocate(old_data, old_limit - old_data);
 
 		old_data = NULL;
@@ -164,9 +161,6 @@ public:
 	{ 
 		if (_avail > _data) 
 			_alloc.destroy(_avail--); 
-		else if (_avail == _data)
-			deleteOldData(_data, _avail, _limit);
-		
 	}
 
 	void push_back (const value_type& val)
