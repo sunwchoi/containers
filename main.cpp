@@ -1,4 +1,3 @@
-
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -53,7 +52,7 @@ public:
 
 
 
-#if 1
+#if 0
 int main(int argc, char** argv) {
 
 
@@ -180,6 +179,16 @@ int main()
 		std::cout	<< "size: " << vec.size()
 					<< " capacity: " << vec.capacity()
 					<< std::endl;
+		if (i ==  0 )
+		{
+			vec.insert(vec.end(), 10, 1);
+			std::cout << "insert 10 elements" << std::endl;
+			std::cout	<< "size: " << vec.size()
+						<< " capacity: " << vec.capacity()
+						<< std::endl;
+
+
+		}
 		vec.push_back(i);
 	}
 
@@ -208,7 +217,7 @@ int main()
 		int key = rand() % 100;
 		std::cout << "insert: " << key << std::endl;
 		mp.insert(ft::make_pair(key, 0));
-		mp.print();
+		//mp.print();
 		getchar();
 		if (i % 7 == 5)
 		{
@@ -216,12 +225,12 @@ int main()
 			it = ++(++(++mp.begin()));
 			std::cout << "erase: " <<  it->first << std::endl;
 			mp.erase(it->first);
-			mp.print();
+			//mp.print();
 			getchar();
 			std::cout << std::endl;
 		}
 	}
-
+	std::cout << "hi"<< std::endl;	
 	std::cout << t - clock() << std::endl;
 }
 #endif
