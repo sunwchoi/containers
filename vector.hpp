@@ -14,18 +14,21 @@ namespace ft
 class vector
 {
 public:
-	typedef T value_type;
-	typedef Alloc allocator_type;
-	typedef typename allocator_type::reference reference;
-	typedef typename allocator_type::const_reference  const_reference;
-	typedef typename allocator_type::pointer pointer;
-	typedef typename allocator_type::const_pointer  const_pointer;
-	typedef pointer iterator;
-	typedef const_pointer const_iterator;
-	typedef typename ft::reverse_iterator<iterator> reverse_iterator;
-	typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
-	typedef ptrdiff_t different_type;
-	typedef size_t size_type;
+	typedef T			value_type;
+	typedef Alloc		allocator_type;
+
+	typedef typename	allocator_type::reference reference;
+	typedef typename	allocator_type::const_reference  const_reference;
+	typedef typename	allocator_type::pointer pointer;
+	typedef typename	allocator_type::const_pointer  const_pointer;
+
+	typedef pointer			iterator;
+	typedef const_pointer	const_iterator;
+	typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
+	typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+
+	typedef ptrdiff_t	different_type;
+	typedef size_t		size_type;
 
 protected:
 	typename allocator_type::template rebind<T>::other	_alloc;
@@ -104,14 +107,11 @@ protected:
 
 	size_type	getExtendedCapacity(const size_type& n = 1)
 	{
-		size_type old_capacity = capacity();
-		size_type new_capacity = old_capacity * 2;
-
-		if (!old_capacity)
-			return (n);
-		for (; new_capacity <= old_capacity + n; new_capacity *= 2)
-			;
-		return (new_capacity);
+		if (!capacity())
+			return n;
+		else if (size() + n > capacity() * 2)
+			return (size() + n);
+		return (capacity() * 2);
 	}
 
 	template<class InputIterator>
