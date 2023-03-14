@@ -486,19 +486,23 @@ protected:
 public:
 	//OCCF
 	tree(const value_compare& comp = value_compare(), const allocator_type& alloc = allocator_type())
-	: _alloc(alloc), _comp(comp), _root(NULL), _end(_alloc.allocate(1))
+	: _alloc(alloc), _comp(comp), _root(NULL), _end(makeNode(value_type()))
 	{
-	};
+		connectEndAndRoot();
+	}
 	tree(const tree& x)
-	: _alloc(x._alloc), _comp(x._comp), _root(NULL), _end(_alloc.allocate(1))
+	: _alloc(x._alloc), _comp(x._comp), _root(NULL), _end(makeNode(value_type()))
 	{
 		_root = copyAllNode(x._root);
 		connectEndAndRoot();
-	};
+	}
 	template<class InputIterator>
 	tree(InputIterator first, InputIterator last, const value_compare& comp = value_compare(), const allocator_type& alloc = allocator_type())
-	: _alloc(alloc), _comp(comp), _root(NULL), _end(_alloc.allocate(1))
-	{ for (; first != last; first++) insertNode(makeNode(*first)); }
+	: _alloc(alloc), _comp(comp), _root(NULL), _end(makeNode(value_type()))
+	{ 
+		connectEndAndRoot();
+		for (; first != last; first++) insertNode(makeNode(*first));
+	}
 
 	tree&	operator=(const tree& x)
 	{
