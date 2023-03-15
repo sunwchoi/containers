@@ -13,6 +13,21 @@
 namespace ft
 {
 
+template<class T>
+struct tree_node
+{
+	typedef T value_type;
+	value_type	val;
+	char		color;
+	tree_node*	parent;
+	tree_node*	left;
+	tree_node*	right;
+
+	tree_node(const value_type& val = value_type(), const char& color = 'R') : val(val), color(color), parent(NULL), left(NULL), right(NULL) {};
+	tree_node(const tree_node&	nde) : val(nde.val), color(nde.color), parent(nde.parent), left(nde.left), right(nde.right) {};
+	tree_node& operator= (const tree_node& nde) { val = nde.val; color = nde.color; parent = nde.parent; left = nde.left; right = nde.right; }
+	~tree_node() {};
+};
 
 template <class T, class Compare, class Alloc>
 class tree
@@ -29,22 +44,8 @@ public:
     typedef typename allocator_type::difference_type	difference_type;
 
 protected:
-struct tree_node
-{
-	typedef value_type value_type;
-	value_type	val;
-	char		color;
-	tree_node*	parent;
-	tree_node*	left;
-	tree_node*	right;
 
-	tree_node(const value_type& val = value_type(), const char& color = 'R') : val(val), color(color), parent(NULL), left(NULL), right(NULL) {};
-	tree_node(const tree_node&	nde) : val(nde.val), color(nde.color), parent(nde.parent), left(nde.left), right(nde.right) {};
-	tree_node& operator= (const tree_node& nde) { val = nde.val; color = nde.color; parent = nde.parent; left = nde.left; right = nde.right; }
-	~tree_node() {};
-};
-
-	typedef	tree_node		node;
+	typedef	tree_node<value_type>		node;
 	typedef	node*			node_pointer;
 	typedef	const node*		const_node_pointer;
 
@@ -528,6 +529,8 @@ public:
 	size_type count(const value_type& val) const
 	{
 		node_pointer node = searchNode(val);
+		if (!node)
+			return 0;
 		if (_comp(node->val, val) || _comp(val, node->val))
 			return 0;
 		return 1;
@@ -580,6 +583,8 @@ public:
 	size_type erase (const value_type& val)
 	{
 		node_pointer	target = searchNode(val);
+		if (!target)
+			return 0;
 		if (_comp(val, target->val) || _comp(target->val, val))
 			return 0;
 		deleteNode(target);
@@ -592,6 +597,8 @@ public:
 	{
 		node_pointer position = searchNode(val);
 
+		if (!position)
+			return (iterator(_end));
 		if (_comp(position->val, val) || _comp(val, position->val))
 			return (iterator(_end));
 		return iterator(position);
@@ -600,6 +607,8 @@ public:
 	{
 		node_pointer position = searchNode(val);
 
+		if (!position)
+			return (iterator(_end));
 		if (_comp(position->val, val) || _comp(val, position->val))
 			return (const_iterator(_end));
 		return const_iterator(position);
@@ -647,13 +656,13 @@ public:
 
 	void swap (tree& x)
 	{
-		node_pointer	tmp = x._root;
-		
+		node_pointer	tmp_root = x._root;
+		node_pointer	tmp_end = x._end;
 		x._root = _root;
 		x._end = _end;
 		
-		_root = tmp;
-		_end = tmp->parent;
+		_root = tmp_root;
+		_end = tmp_end;
 	}
 
 	friend bool operator== ( const tree<T,Compare,Alloc>& lhs, const tree<T,Compare,Alloc>& rhs )
