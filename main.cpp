@@ -4,8 +4,8 @@
 #include <iostream>
 #include <deque>
 
-#if 0
-#if TEST//CREATE A REAL STL EXAMPLE
+#if 1
+#if 1//TEST//CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
@@ -86,7 +86,8 @@ int main(int argc, char** argv) {
 		vector_buffer[idx].idx = 5;
 	}
 	ft::vector<Buffer>().swap(vector_buffer);
-
+	ft::vector<Buffer>::iterator it = vector_buffer.begin();
+	std::cout << it.base() << std::endl;
 	try
 	{
 		for (int i = 0; i < COUNT; i++)
@@ -128,7 +129,7 @@ int main(int argc, char** argv) {
 	std::cout << t - clock() << std::endl;
 	return (0);
 }
-//#else
+#else
 #include "vector.hpp"
 #include "map.hpp"
 
@@ -239,82 +240,6 @@ int main()
 	}
 	std::cout << "hi"<< std::endl;	
 	std::cout << t - clock() << std::endl;
-}
-#else
-
-#include <cstdio>
-#include <vector>
-#include <map>
-#include "map"
-int _ratio = 1;
-template <class T, class V>
-std::vector<int> erase_test_1(std::map<T, V> mp) {
-    std::vector<int> v;
-    v.push_back(mp.erase(3));
-    for (int i = 0, j = 0; i < 30 * _ratio; ++i, ++j)
-        mp.insert(std::make_pair(i, j));
-    typename std::map<T, V>::iterator it = mp.begin();
-    v.push_back(it->first);
-    v.push_back(mp.erase(-5));
-    v.push_back(mp.size());
-    v.push_back(mp.erase(0));
-    v.push_back(mp.size());
-    it = mp.begin();
-    v.push_back(it->first);
-    typename std::map<T, V>::iterator it4 = mp.begin();
-    for (; it4 != mp.end(); it4 = mp.begin())
-        mp.erase(it4->first);
-    v.push_back(mp.erase(30 * _ratio - 1));
-    v.push_back(mp.size());
-    std::map<int, int> mp2;
-    for (int i = 0, j = 0; i < 10 ; ++i, ++j)
-        mp2.insert(std::make_pair(i, j));
-    mp2.erase(2);
-    mp2.erase(7);
-    typename std::map<T, V>::iterator it3 = mp2.begin();
-    for (; it3 != mp2.end(); ++it3) {
-        v.push_back(it3->first);
-        v.push_back(it3->second);
-    }
-    return v;
-}
-template <class T, class V>
-std::vector<int> erase_test_1(ft::map<T, V> mp) {
-    std::vector<int> v;
-    v.push_back(mp.erase(3));
-    for (int i = 0, j = 0; i < 30 * _ratio; ++i, ++j)
-        mp.insert(ft::make_pair(i, j));
-    typename ft::map<T, V>::iterator it = mp.begin();
-    v.push_back(it->first);
-    v.push_back(mp.erase(-5));
-    v.push_back(mp.size());
-    v.push_back(mp.erase(0));
-    v.push_back(mp.size());
-	it = mp.begin();
-    v.push_back(it->first);
-    typename ft::map<T, V>::iterator it4 = mp.begin();
-    g_start2 = timer();
-    for (; it4 != mp.end(); it4 = mp.begin())
-        mp.erase(it4->first);
-    g_end2 = timer();
-    v.push_back(mp.erase(30 * _ratio - 1));
-    v.push_back(mp.size());
-    ft::map<int, int> mp2;
-    for (int i = 0, j = 0; i < 10 ; ++i, ++j)
-        mp2.insert(ft::make_pair(i, j));
-    mp2.erase(2);
-    mp2.erase(7);
-    typename ft::map<T, V>::iterator it3 = mp2.begin();
-    for (; it3 != mp2.end(); ++it3) {
-        v.push_back(it3->first);
-        v.push_back(it3->second);
-    }
-    return v;
-}
-
-int main() {
-
-    exit(run_map_unit_test<int, int>("erase(key)", erase_test_1, erase_test_1));
 }
 
 #endif

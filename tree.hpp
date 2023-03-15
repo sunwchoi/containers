@@ -576,9 +576,9 @@ public:
 	}
 
 	pair<const_iterator,const_iterator> equal_range (const value_type& val) const
-	{ return make_pair(lower_bound(val), upper_bound(val)); }
+	{ return ft::make_pair(lower_bound(val), upper_bound(val)); }
 	pair<iterator,iterator>equal_range (const value_type& val)
-	{ return make_pair(lower_bound(val), upper_bound(val)); }
+	{ return ft::make_pair(lower_bound(val), upper_bound(val)); }
 
 	size_type erase (const value_type& val)
 	{

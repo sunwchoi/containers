@@ -2,6 +2,7 @@
 # define VECTOR_HPP
 
 #include "SFINAE.hpp"
+#include "iterator_trait.hpp"
 #include "reverse_iterator.hpp"
 #include "compare.hpp"
 #include <cstddef>
