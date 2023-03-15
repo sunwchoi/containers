@@ -58,8 +58,10 @@ protected:
 
 public:
 	wrap_iter() : _i(NULL) {};
-	wrap_iter(const wrap_iter& w_it) : _i(w_it._i) {};
-	wrap_iter& operator=(const wrap_iter& w_it) { _i = w_it._i; };
+	template<class Iter>
+	wrap_iter(const wrap_iter<Iter>& w_it) : _i(w_it.base()) {};
+	template<class Iter>
+	wrap_iter& operator=(const wrap_iter<iter>& w_it) { _i = w_it.base(); return *this;};
 	~wrap_iter() {};
 	wrap_iter(const iter& i) : _i(i) {};
 
