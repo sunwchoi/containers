@@ -43,7 +43,7 @@ public:
 };
 
 
-
+/*
 template<class iter>
 class wrap_iter
 {
@@ -95,6 +95,6 @@ public:
 	{ return !(lhs > rhs);};
 	
 };
-
+*/
 }
 #endif

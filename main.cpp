@@ -5,12 +5,15 @@
 #include <deque>
 
 #if 1
-#if 1//TEST//CREATE A REAL STL EXAMPLE
+#if TEST//TEST//CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
 	namespace ft = std;
-void	leak_check() { };
+void	leak_check()
+{
+	system("leaks origin_containers");
+};
 #else
 	#include "map.hpp"
 	#include "stack.hpp"
@@ -86,8 +89,6 @@ int main(int argc, char** argv) {
 		vector_buffer[idx].idx = 5;
 	}
 	ft::vector<Buffer>().swap(vector_buffer);
-	ft::vector<Buffer>::iterator it = vector_buffer.begin();
-	std::cout << it.base() << std::endl;
 	try
 	{
 		for (int i = 0; i < COUNT; i++)

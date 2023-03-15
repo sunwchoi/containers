@@ -13,7 +13,7 @@ int main(void)
 	pop_back();
   insert();
 	erase();
-	swap();
+//	swap();
 	clear();
 	oper();
 	iterOper();
