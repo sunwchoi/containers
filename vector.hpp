@@ -188,17 +188,27 @@ public:
 	template <class InputIterator>
 	void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0)
 	{
-		if (_data)
-			deleteOldData(_data, _avail, _limit); 
-		initiateNewData(checkSize(first, last));
+		size_type n = checkSize(first, last);
+		
+		if (n > capacity())
+		{
+			deleteOldData(_data, _avail, _limit);
+			initiateNewData(n);
+		}
+		else
+			clear();
 		copyWithIterator(first, last);
 	}
 
 	void assign (size_type n, const value_type& val)
 	{
-		if (_data)
+		if (n > capacity())
+		{
 			deleteOldData(_data, _avail, _limit);
-		initiateNewData(n);
+			initiateNewData(n);
+		}
+		else
+			clear();
 		copyWithValue(n, val);
 	}
 
@@ -312,7 +322,7 @@ public:
 	{
 		if (n < size())
 		{
-			for (; size() != n; ) _alloc.destroy(_avail--);
+			for (; size() != n; ) _alloc.destroy(--_avail);
 		}
 		else if (size() < n && n <= capacity())
 			copyWithValue(n - size(), val);
@@ -322,7 +332,7 @@ public:
 			iterator	old_avail = _avail;
 			iterator	old_limit = _limit;
 
-			initiateNewData(n);
+			initiateNewData(getExtendedCapacity(n - size()));
 			copyWithIterator(old_data, old_avail);
 			copyWithValue(n - size(), val);
 			deleteOldData(old_data, old_avail, old_limit); 
