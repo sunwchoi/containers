@@ -150,7 +150,13 @@ public:
 		_alloc = x.get_allocator();
 		assign(x.begin(), x.end()); 
 	}
-	vector& operator= (const vector& x) { assign(x.begin(), x.end()); return *this; }
+	vector& operator= (const vector& x)
+	{ 
+		deleteOldData(_data, _avail, _limit);
+		initiateNewData(checkSize(x.begin(), x.end()));
+		copyWithIterator(x.begin(), x.end());
+		return *this;
+	}
 
 	~vector()
 	{
