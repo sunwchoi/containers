@@ -32,10 +32,13 @@ public:
 	typedef size_t		size_type;
 
 protected:
-	typename allocator_type::template rebind<T>::other	_alloc;
-	iterator	_data;
-	iterator	_avail;
-	iterator	_limit;
+	typedef	typename allocator_type::template rebind<T>::other	inner_alloc;
+	typedef	typename inner_alloc::pointer						inner_pointer;
+
+	inner_alloc		_alloc;
+	inner_pointer	_data;
+	inner_pointer	_avail;
+	inner_pointer	_limit;
 
 protected:
 	void	initiateNewData(size_type n)
@@ -140,8 +143,7 @@ public:
 	: _alloc(alloc)
 	{
 		initiateNewData(checkSize(first, last));
-		for (; _avail < _limit; _avail++)
-			*_avail = *(first++);
+		copyWithIterator(first, last);
 	}
 
 	vector(const vector& x)
